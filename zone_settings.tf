@@ -13,7 +13,7 @@ resource "cloudflare_zone_settings_override" "terraform_managed_resource_d2ccfa6
       nosniff            = false
       preload            = false
     }
-    always_online               = "on"
+    always_online               = "off"
     always_use_https            = "on"
     automatic_https_rewrites    = "off"
     brotli                      = "on"
@@ -44,13 +44,13 @@ resource "cloudflare_zone_settings_override" "terraform_managed_resource_d2ccfa6
     pseudo_ipv4                 = "off"
     response_buffering          = "off"
     rocket_loader               = "on"
-    security_level              = "off"
+    security_level              = "high"
     server_side_exclude         = "on"
-    sort_query_string_for_cache = "off"
-    ssl                         = "flexible"
+    sort_query_string_for_cache = "on"
+    ssl                         = "full"
     tls_1_3                     = "zrt"
     tls_client_auth             = "off"
-    true_client_ip_header       = "on"
+    true_client_ip_header       = "off"
     webp                        = "on"
     websockets                  = "on"
     zero_rtt                    = "on"

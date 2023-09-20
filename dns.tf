@@ -27,6 +27,15 @@ resource "cloudflare_record" "cache-worker" {
   zone_id = var.cloudflare_zone_id
 }
 
+resource "cloudflare_record" "outage" {
+  name    = "outage"
+  proxied = true
+  ttl     = 1
+  type    = "A"
+  value   = "192.0.2.1"
+  zone_id = var.cloudflare_zone_id
+}
+
 resource "cloudflare_record" "httpbin" {
   name    = "httpbin"
   proxied = true
