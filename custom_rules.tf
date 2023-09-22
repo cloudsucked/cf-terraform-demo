@@ -79,7 +79,7 @@ resource "cloudflare_ruleset" "my_custom_rules" {
     action      = "block"
     description = "Bots: Block all Botscore < 30"
     enabled     = true
-    expression  = "(http.host eq \"httpbin.cloudsucked.com\" and cf.bot_management.score lt 30)"
+    expression  = "(http.host eq \"httpbin.juiceshop.website\" and cf.bot_management.score lt 30)"
   }
 
   rules {
