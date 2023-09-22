@@ -14,8 +14,19 @@ terraform {
       version = "> 4.14.0"
     }
   }
-  # backend "r2" {
+  # backend "s3" {
+  #   bucket = "tfstate"
+  #   key    = "nz-demo/terraform.tfstate"
 
+  #   region                      = "auto"
+  #   skip_region_validation      = true
+  #   skip_metadata_api_check     = true
+  #   skip_credentials_validation = true
+  #   force_path_style            = true
+
+  # export AWS_ACCESS_KEY_ID="op://cloudflare/cflr-r2/S3-API/access-key-id"
+  # export AWS_SECRET_ACCESS_KEY="op://cloudflare/cflr-r2/S3-API/secret-access-key"
+  # export AWS_S3_ENDPOINT="https://{{op://cloudflare/cflr-account-id/credential}}.r2.cloudflarestorage.com"
   # }
 }
 
@@ -25,4 +36,3 @@ provider "cloudflare" {
   # api_token = var.cloudflare_token
   # api_hostname = "au.api.cloudflare.com"
 }
-
