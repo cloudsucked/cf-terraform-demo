@@ -8,6 +8,13 @@ resource "cloudflare_ruleset" "my_custom_rules" {
 
   rules {
     action      = "log"
+    description = "Log WAFML threats"
+    enabled     = true
+    expression  = "(cf.waf.score lt 40)"
+  }
+
+  rules {
+    action      = "log"
     description = "Log all requests to admin portal"
     enabled     = true
     expression  = "(http.host eq \"httpbin.juiceshop.website\" and lower(url_decode(http.request.uri.path)) matches \"^/admin.*\")"
