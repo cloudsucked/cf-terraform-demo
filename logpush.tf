@@ -1,6 +1,7 @@
 # https://developers.cloudflare.com/logs/about/
 
 data "cloudflare_api_token_permission_groups" "all" {}
+
 resource "cloudflare_api_token" "logpush_r2_token" {
   name = "logpush_r2_token"
   policy {
@@ -14,6 +15,9 @@ resource "cloudflare_api_token" "logpush_r2_token" {
 }
 
 resource "cloudflare_logpush_job" "http_requests_r2" {
+  depends_on = [
+    cloudflare_api_token.logpush_r2_token
+  ]
   enabled          = true
   zone_id          = var.cloudflare_zone_id
   name             = "terraform"
