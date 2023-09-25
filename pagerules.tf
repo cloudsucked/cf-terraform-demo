@@ -3,11 +3,11 @@
 resource "cloudflare_page_rule" "redirecthttpbin" {
   priority = 1
   status   = "active"
-  target   = "http://httpbin.juiceshop.website/*"
+  target   = "http://httpbin.${var.zone}/*"
   zone_id  = var.cloudflare_zone_id
   actions {
     forwarding_url {
-      url         = "https://httpbin.juiceshop.website/$1"
+      url         = "https://httpbin.${var.zone}/$1"
       status_code = 302
     }
   }

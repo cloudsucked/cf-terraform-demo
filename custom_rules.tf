@@ -17,14 +17,14 @@ resource "cloudflare_ruleset" "my_custom_rules" {
     action      = "log"
     description = "Log all requests to admin portal"
     enabled     = true
-    expression  = "(http.host eq \"httpbin.juiceshop.website\" and lower(url_decode(http.request.uri.path)) matches \"^/admin.*\")"
+    expression  = "(http.host eq \"httpbin.${var.zone}\" and lower(url_decode(http.request.uri.path)) matches \"^/admin.*\")"
   }
 
   rules {
     action      = "skip"
     description = "Allow pentesters to bypass security"
     enabled     = true
-    expression  = "(http.host eq \"httpbin.juiceshop.website\" and ip.src in $allowlists)"
+    expression  = "(http.host eq \"httpbin.${var.zone}\" and ip.src in $allowlists)"
     action_parameters {
       phases = [
         "http_ratelimit",
@@ -77,14 +77,14 @@ resource "cloudflare_ruleset" "my_custom_rules" {
     action      = "block"
     description = "Block non-allowlisted IP's from Admin"
     enabled     = true
-    expression  = "(http.host eq \"httpbin.juiceshop.website\" and url_decode(http.request.uri.path) matches \"^/admin.*\" and not ip.src in $allowlists)"
+    expression  = "(http.host eq \"httpbin.${var.zone}\" and url_decode(http.request.uri.path) matches \"^/admin.*\" and not ip.src in $allowlists)"
   }
 
   rules {
     action      = "skip"
     description = "Bots: Whitelist Good Bots"
     enabled     = true
-    expression  = "http.host eq \"httpbin.juiceshop.website\" and (cf.bot_management.verified_bot or ip.src in $allowlists)"
+    expression  = "http.host eq \"httpbin.${var.zone}\" and (cf.bot_management.verified_bot or ip.src in $allowlists)"
     action_parameters {
       phases = [
         "http_request_sbfm",
@@ -100,7 +100,7 @@ resource "cloudflare_ruleset" "my_custom_rules" {
     action      = "block"
     description = "Bots: Block all Botscore < 30"
     enabled     = true
-    expression  = "(http.host eq \"httpbin.juiceshop.website\" and cf.bot_management.score lt 30)"
+    expression  = "(http.host eq \"httpbin.${var.zone}\" and cf.bot_management.score lt 30)"
   }
 
   rules {

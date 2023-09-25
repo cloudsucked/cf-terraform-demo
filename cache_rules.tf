@@ -9,7 +9,7 @@ resource "cloudflare_ruleset" "cache_settings" {
 
   rules {
     action      = "set_cache_settings"
-    expression  = "(http.host eq \"httpbin.juiceshop.website\")"
+    expression  = "(http.host eq httpbin.${var.zone})"
     description = "set cache settings rule"
     enabled     = true
     action_parameters {

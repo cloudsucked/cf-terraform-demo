@@ -9,7 +9,7 @@ resource "cloudflare_ruleset" "config_rules" {
 
   rules {
     action      = "set_config"
-    expression  = "(http.host eq \"httpbin.juiceshop.website\")"
+    expression  = "(http.host eq \"httpbin.${var.zone}\")"
     description = "Configuration Rules"
     enabled     = true
     action_parameters {
