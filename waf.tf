@@ -38,7 +38,7 @@ resource "cloudflare_ruleset" "zone_level_managed_waf" {
       }
     }
 
-    expression  = "(http.host eq \"test.${var.zone}\")"
+    expression  = "(http.host eq \"test.${var.cloudflare_zone}\")"
     description = "overrides to only enable wordpress rules to block"
     enabled     = false
   }
@@ -49,7 +49,7 @@ resource "cloudflare_ruleset" "zone_level_managed_waf" {
     action_parameters {
       rulesets = ["4814384a9e5d4991b9815dcfc25d2f1f"]
     }
-    expression  = "(http.host eq \"login.${var.zone}\" and http.request.uri.path contains \"admin\")"
+    expression  = "(http.host eq \"login.${var.cloudflare_zone}\" and http.request.uri.path contains \"admin\")"
     description = "Skip OWASP for some traffic"
     logging {
       enabled = false

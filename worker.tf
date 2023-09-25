@@ -8,7 +8,7 @@ resource "cloudflare_worker_script" "pacfile_worker" {
 
 resource "cloudflare_worker_route" "pacfile_worker_route" {
   zone_id     = var.cloudflare_zone_id
-  pattern     = "pacfile.${var.zone}/proxy.pac"
+  pattern     = "pacfile.${var.cloudflare_zone}/proxy.pac"
   script_name = cloudflare_worker_script.pacfile_worker.name
 }
 

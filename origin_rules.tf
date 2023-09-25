@@ -14,7 +14,7 @@ resource "cloudflare_ruleset" "origin_rules" {
     expression  = "(http.request.uri.path matches \"^/nyt/\")"
     action_parameters {
       origin {
-        host = "nytimes.${var.zone}"
+        host = "nytimes.${var.cloudflare_zone}"
         port = 443
       }
     }

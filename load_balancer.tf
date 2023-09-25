@@ -13,11 +13,11 @@ resource "cloudflare_load_balancer_monitor" "example" {
   description    = "example http load balancer"
   header {
     header = "Host"
-    values = ["lb.${var.zone}"]
+    values = ["lb.${var.cloudflare_zone}"]
   }
   allow_insecure   = false
   follow_redirects = true
-  probe_zone       = var.zone
+  probe_zone       = var.cloudflare_zone
 }
 
 output "monitor_id" {

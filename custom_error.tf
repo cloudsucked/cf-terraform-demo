@@ -9,7 +9,7 @@ resource "cloudflare_ruleset" "custom_error_rules" {
 
   rules {
     action     = "serve_error"
-    expression = "(http.host eq \"outage.${var.zone}\")"
+    expression = "(http.host eq \"outage.${var.cloudflare_zone}\")"
     enabled    = true
     action_parameters {
       content      = "<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>Outage</title></head><body><h1>Application temporarily unavailable</h1><p>Please try again later.</p></body></html>"
