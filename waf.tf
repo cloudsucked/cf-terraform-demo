@@ -1,5 +1,26 @@
 # https://developers.cloudflare.com/waf/
 
+data "cloudflare_rulesets" "owasp_id" {
+  zone_id = var.cloudflare_zone_id
+  filter {
+    name = ".*OWASP.*"
+  }
+}
+
+data "cloudflare_rulesets" "cf_managed_id" {
+  zone_id = var.cloudflare_zone_id
+  filter {
+    name = "Cloudflare Managed Ruleset"
+  }
+}
+
+data "cloudflare_rulesets" "leaked_creds_id" {
+  zone_id = var.cloudflare_zone_id
+  filter {
+    name = "Cloudflare Exposed Credentials Check Ruleset"
+  }
+}
+
 resource "cloudflare_ruleset" "zone_level_managed_waf" {
   zone_id     = var.cloudflare_zone_id
   name        = "CF managed WAF"
@@ -11,7 +32,7 @@ resource "cloudflare_ruleset" "zone_level_managed_waf" {
   rules {
     action = "execute"
     action_parameters {
-      id = "c2e184081120413c86c3ab7e14069605"
+      id = data.cloudflare_rulesets.leaked_creds_id.rulesets[0].id
     }
     expression  = "true"
     description = "Leaked Credentials"
@@ -22,7 +43,7 @@ resource "cloudflare_ruleset" "zone_level_managed_waf" {
   rules {
     action = "execute"
     action_parameters {
-      id = "efb7b8c949ac4650a09736fc376e9aee"
+      id = data.cloudflare_rulesets.cf_managed_id.rulesets[0].id
       overrides {
         categories {
           category = "wordpress"
@@ -47,7 +68,7 @@ resource "cloudflare_ruleset" "zone_level_managed_waf" {
   rules {
     action = "skip"
     action_parameters {
-      rulesets = ["4814384a9e5d4991b9815dcfc25d2f1f"]
+      rulesets = [data.cloudflare_rulesets.owasp_id.rulesets[0].id]
     }
     expression  = "(http.host eq \"login.${var.cloudflare_zone}\" and http.request.uri.path contains \"admin\")"
     description = "Skip OWASP for some traffic"
@@ -61,7 +82,7 @@ resource "cloudflare_ruleset" "zone_level_managed_waf" {
   rules {
     action = "execute"
     action_parameters {
-      id = "4814384a9e5d4991b9815dcfc25d2f1f"
+      id = data.cloudflare_rulesets.owasp_id.rulesets[0].id
       overrides {
 
         categories {
