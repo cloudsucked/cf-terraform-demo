@@ -47,6 +47,20 @@ resource "cloudflare_ruleset" "my_custom_rules" {
 
   rules {
     action      = "block"
+    description = "Fake notification for webhook"
+    enabled     = true
+    expression  = "(http.request.method in {\"POST\" \"PUT\"})"
+    action_parameters {
+      response {
+        content      = "Success"
+        content_type = "application/json"
+        status_code  = 404
+      }
+    }
+  }
+
+  rules {
+    action      = "block"
     description = "Block truncated requests"
     enabled     = true
     expression  = "(http.request.headers.truncated or http.request.body.truncated)"

@@ -18,6 +18,15 @@ resource "cloudflare_record" "bandwidth" {
   zone_id = var.cloudflare_zone_id
 }
 
+resource "cloudflare_record" "notification" {
+  name    = "notification"
+  proxied = true
+  ttl     = 1
+  type    = "A"
+  value   = "192.0.2.1"
+  zone_id = var.cloudflare_zone_id
+}
+
 resource "cloudflare_record" "cache-worker" {
   name    = "cache-worker"
   proxied = true
