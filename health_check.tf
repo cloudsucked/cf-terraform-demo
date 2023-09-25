@@ -10,7 +10,7 @@ resource "cloudflare_healthcheck" "http_health_check" {
   type          = "HTTPS"
   port          = 443
   method        = "GET"
-  path          = "/"
+  path          = "/proxy.pac"
   expected_body = "alive"
   expected_codes = [
     "2xx",
