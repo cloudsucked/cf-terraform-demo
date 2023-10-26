@@ -32,7 +32,7 @@ resource "cloudflare_zone_settings_override" "terraform_managed_resource_d2ccfa6
     ip_geolocation              = "on"
     ipv6                        = "on"
     max_upload                  = 100
-    min_tls_version             = "1.2"
+    min_tls_version             = "1.1"
     mirage                      = "on"
     opportunistic_encryption    = "off"
     opportunistic_onion         = "on"

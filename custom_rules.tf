@@ -7,14 +7,15 @@ resource "cloudflare_ruleset" "my_custom_rules" {
   zone_id = var.cloudflare_zone_id
 
   rules {
-    action      = "log"
+    ref         = "blahblah"
+    action      = "block"
     description = "Log WAFML threats"
     enabled     = true
     expression  = "(cf.waf.score lt 40)"
   }
 
   rules {
-    action      = "log"
+    action      = "block"
     description = "Log all requests to admin portal"
     enabled     = true
     expression  = "(http.host eq \"httpbin.${var.cloudflare_zone}\" and lower(url_decode(http.request.uri.path)) matches \"^/admin.*\")"
@@ -23,7 +24,7 @@ resource "cloudflare_ruleset" "my_custom_rules" {
   rules {
     action      = "skip"
     description = "Allow pentesters to bypass security"
-    enabled     = true
+    enabled     = false
     expression  = "(http.host eq \"httpbin.${var.cloudflare_zone}\" and ip.src in $allowlists)"
     action_parameters {
       phases = [
@@ -104,6 +105,7 @@ resource "cloudflare_ruleset" "my_custom_rules" {
   }
 
   rules {
+    ref         = "0901cab964544727a6e94556887a0d6b"
     action      = "managed_challenge"
     description = "Geo Challenge"
     enabled     = true
