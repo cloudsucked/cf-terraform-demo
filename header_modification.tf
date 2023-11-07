@@ -6,6 +6,7 @@ resource "cloudflare_ruleset" "transform_modify_request_headers" {
   description = "Request Headers"
   kind        = "zone"
   phase       = "http_request_late_transform"
+
   rules {
     action = "rewrite"
     action_parameters {
@@ -29,17 +30,24 @@ resource "cloudflare_ruleset" "transform_modify_response_headers" {
   description = "Response Headers"
   kind        = "zone"
   phase       = "http_response_headers_transform"
+
   rules {
     action = "rewrite"
     action_parameters {
+      headers {
+        name      = "Link"
+        operation = "set"
+        value     = "<https://httpbin.juiceshop.website/manifest.txt>; rel=\"prefetch\";"
+      }
       headers {
         name       = "X-ASN"
         operation  = "set"
         expression = "to_string(ip.geoip.asnum)"
       }
     }
-    expression  = "true"
-    description = "Add ASN to response headers"
+    expression  = "(http.host contains \"httpbin\")"
+    description = "Add response headers to httpbin"
     enabled     = true
   }
+
 }
