@@ -7,12 +7,30 @@ resource "cloudflare_total_tls" "total_tls_zone" {
 resource "cloudflare_hostname_tls_setting_ciphers" "httpbin_ciphers" {
   zone_id  = var.cloudflare_zone_id
   hostname = cloudflare_record.httpbin.hostname
-  value    = ["ECDHE-RSA-AES128-GCM-SHA256"]
+  value = [
+    "ECDHE-ECDSA-AES128-GCM-SHA256"
+  ]
 }
 
 resource "cloudflare_hostname_tls_setting" "httpbin_tls_settings" {
   zone_id  = var.cloudflare_zone_id
   hostname = cloudflare_record.httpbin.hostname
+  setting  = "min_tls_version"
+  value    = "1.2"
+}
+
+resource "cloudflare_hostname_tls_setting_ciphers" "www_ciphers" {
+  zone_id  = var.cloudflare_zone_id
+  hostname = cloudflare_record.www.hostname
+  value = [
+    "ECDHE-ECDSA-AES128-GCM-SHA256",
+    "ECDHE-ECDSA-AES256-GCM-SHA384"
+  ]
+}
+
+resource "cloudflare_hostname_tls_setting" "www_tls_settings" {
+  zone_id  = var.cloudflare_zone_id
+  hostname = cloudflare_record.www.hostname
   setting  = "min_tls_version"
   value    = "1.2"
 }
