@@ -1,4 +1,5 @@
-resource "cloudflare_zone_settings_override" "terraform_managed_resource_d2ccfa6f9ddb4261306a1c19b0f9972e" {
+# https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/zone_settings_override
+resource "cloudflare_zone_settings_override" "my_zone_settings" {
   zone_id = var.cloudflare_zone_id
   settings {
     minify {

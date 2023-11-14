@@ -1,5 +1,4 @@
 # https://developers.cloudflare.com/workers/ 
-
 resource "cloudflare_worker_script" "pacfile_worker" {
   account_id = var.cloudflare_account_id
   name       = "pacfile_worker"

@@ -1,3 +1,4 @@
+# https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/healthcheck
 resource "cloudflare_healthcheck" "http_health_check" {
   zone_id     = var.cloudflare_zone_id
   name        = "http-health-check"

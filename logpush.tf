@@ -1,5 +1,4 @@
 # https://developers.cloudflare.com/logs/about/
-
 data "cloudflare_api_token_permission_groups" "all" {}
 
 resource "cloudflare_api_token" "logpush_r2_token" {

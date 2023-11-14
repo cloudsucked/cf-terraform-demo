@@ -1,5 +1,4 @@
 # https://developers.cloudflare.com/waf/
-
 data "cloudflare_rulesets" "owasp_id" {
   zone_id = var.cloudflare_zone_id
   filter {

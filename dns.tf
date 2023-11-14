@@ -1,5 +1,4 @@
 # https://developers.cloudflare.com/dns/manage-dns-records/
-
 resource "cloudflare_record" "api" {
   name    = "api"
   proxied = true
@@ -77,6 +76,6 @@ resource "cloudflare_record" "www" {
   proxied = true
   ttl     = 1
   type    = "CNAME"
-  value   = "juice-shop.herokuapp.com"
+  value   = "juiceshop.herokuapp.com"
   zone_id = var.cloudflare_zone_id
 }

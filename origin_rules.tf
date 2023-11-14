@@ -1,5 +1,4 @@
 # https://developers.cloudflare.com/rules/origin-rules/
-
 resource "cloudflare_ruleset" "origin_rules" {
   zone_id     = var.cloudflare_zone_id
   name        = "Origin Rules"

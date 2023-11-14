@@ -1,9 +1,11 @@
+# https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/total_tls
 resource "cloudflare_total_tls" "total_tls_zone" {
   zone_id               = var.cloudflare_zone_id
   enabled               = true
   certificate_authority = "lets_encrypt"
 }
 
+# https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/hostname_tls_setting_ciphers
 resource "cloudflare_hostname_tls_setting_ciphers" "httpbin_ciphers" {
   zone_id  = var.cloudflare_zone_id
   hostname = cloudflare_record.httpbin.hostname
@@ -12,6 +14,7 @@ resource "cloudflare_hostname_tls_setting_ciphers" "httpbin_ciphers" {
   ]
 }
 
+# https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/hostname_tls_setting
 resource "cloudflare_hostname_tls_setting" "httpbin_tls_settings" {
   zone_id  = var.cloudflare_zone_id
   hostname = cloudflare_record.httpbin.hostname

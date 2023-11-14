@@ -1,5 +1,4 @@
 # https://developers.cloudflare.com/load-balancing/understand-basics/load-balancers/#load-balancers
-
 resource "cloudflare_load_balancer_monitor" "example" {
   account_id     = var.cloudflare_account_id
   type           = "http"

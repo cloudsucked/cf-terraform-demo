@@ -1,5 +1,4 @@
 # https://developers.cloudflare.com/rules/custom-error-responses/
-
 resource "cloudflare_ruleset" "custom_error_rules" {
   zone_id     = var.cloudflare_zone_id
   name        = "Custom Error Rules"

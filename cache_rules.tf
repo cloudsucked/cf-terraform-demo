@@ -1,5 +1,4 @@
 # https://developers.cloudflare.com/cache/how-to/cache-rules/
-
 resource "cloudflare_ruleset" "cache_settings" {
   zone_id     = var.cloudflare_zone_id
   name        = "Cache Rules"

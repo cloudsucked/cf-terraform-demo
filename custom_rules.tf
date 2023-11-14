@@ -1,5 +1,4 @@
 # https://developers.cloudflare.com/waf/custom-rules/
-
 resource "cloudflare_ruleset" "my_custom_rules" {
   kind    = "zone"
   name    = "default"

@@ -1,5 +1,4 @@
 # https://developers.cloudflare.com/rules/transform/
-
 resource "cloudflare_ruleset" "transform_uri_rule_path" {
   zone_id     = var.cloudflare_zone_id
   name        = "http_request_transform"

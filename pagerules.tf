@@ -1,5 +1,4 @@
 # https://developers.cloudflare.com/support/page-rules/understanding-and-configuring-cloudflare-page-rules-page-rules-tutorial/
-
 resource "cloudflare_page_rule" "redirecthttpbin" {
   priority = 1
   status   = "active"

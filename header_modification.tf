@@ -1,5 +1,4 @@
 # https://developers.cloudflare.com/rules/transform/request-header-modification/
-
 resource "cloudflare_ruleset" "transform_modify_request_headers" {
   zone_id     = var.cloudflare_zone_id
   name        = "Request Headers"
@@ -23,7 +22,6 @@ resource "cloudflare_ruleset" "transform_modify_request_headers" {
 }
 
 # https://developers.cloudflare.com/rules/transform/response-header-modification/
-
 resource "cloudflare_ruleset" "transform_modify_response_headers" {
   zone_id     = var.cloudflare_zone_id
   name        = "Response Headers"
