@@ -33,11 +33,6 @@ resource "cloudflare_ruleset" "transform_modify_response_headers" {
     action = "rewrite"
     action_parameters {
       headers {
-        name      = "Link"
-        operation = "set"
-        value     = "<https://httpbin.juiceshop.website/manifest.txt>; rel=\"prefetch\";"
-      }
-      headers {
         name       = "X-ASN"
         operation  = "set"
         expression = "to_string(ip.geoip.asnum)"

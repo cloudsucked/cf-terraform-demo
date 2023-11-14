@@ -104,7 +104,6 @@ resource "cloudflare_ruleset" "my_custom_rules" {
   }
 
   rules {
-    ref         = "0901cab964544727a6e94556887a0d6b"
     action      = "managed_challenge"
     description = "Geo Challenge"
     enabled     = true
