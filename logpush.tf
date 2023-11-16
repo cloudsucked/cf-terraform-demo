@@ -15,13 +15,14 @@ resource "cloudflare_api_token" "logpush_r2_token" {
 
 resource "cloudflare_logpush_job" "http_requests_r2" {
   depends_on = [
-    cloudflare_api_token.logpush_r2_token
+    cloudflare_api_token.logpush_r2_token,
+    cloudflare_r2_bucket.logbucket
   ]
   enabled          = true
   zone_id          = var.cloudflare_zone_id
   name             = "terraform"
   logpull_options  = "fields=ClientIP,ClientRequestHost,ClientRequestMethod,ClientRequestURI,EdgeEndTimestamp,EdgeResponseBytes,EdgeResponseStatus,EdgeStartTimestamp,RayID&timestamps=rfc3339"
-  destination_conf = "r2://cloudsucked-test/http_requests?account-id=${var.cloudflare_account_id}&access-key-id=${cloudflare_api_token.logpush_r2_token.id}&secret-access-key=${sha256(cloudflare_api_token.logpush_r2_token.value)}"
+  destination_conf = "r2://orangecloud-logs/http_requests?account-id=${var.cloudflare_account_id}&access-key-id=${cloudflare_api_token.logpush_r2_token.id}&secret-access-key=${sha256(cloudflare_api_token.logpush_r2_token.value)}"
   dataset          = "http_requests"
   filter = jsonencode( # prevents whitespace changes
     {
