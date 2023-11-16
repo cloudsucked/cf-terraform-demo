@@ -24,7 +24,7 @@ resource "cloudflare_ruleset" "my_custom_rules" {
     action      = "skip"
     description = "Allow pentesters to bypass security"
     enabled     = false
-    expression  = "(http.host eq \"httpbin.${var.cloudflare_zone}\" and ip.src in $allowlists)"
+    expression  = "(http.host eq \"httpbin.${var.cloudflare_zone}\" and ip.src in $allowlist)"
     action_parameters {
       phases = [
         "http_ratelimit",
@@ -77,14 +77,14 @@ resource "cloudflare_ruleset" "my_custom_rules" {
     action      = "block"
     description = "Block non-allowlisted IP's from Admin"
     enabled     = true
-    expression  = "(http.host eq \"httpbin.${var.cloudflare_zone}\" and url_decode(http.request.uri.path) matches \"^/admin.*\" and not ip.src in $allowlists)"
+    expression  = "(http.host eq \"httpbin.${var.cloudflare_zone}\" and url_decode(http.request.uri.path) matches \"^/admin.*\" and not ip.src in $allowlist)"
   }
 
   rules {
     action      = "skip"
     description = "Bots: Whitelist Good Bots"
     enabled     = true
-    expression  = "http.host eq \"httpbin.${var.cloudflare_zone}\" and (cf.bot_management.verified_bot or ip.src in $allowlists)"
+    expression  = "http.host eq \"httpbin.${var.cloudflare_zone}\" and (cf.bot_management.verified_bot or ip.src in $allowlist)"
     action_parameters {
       phases = [
         "http_request_sbfm",
