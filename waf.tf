@@ -96,7 +96,7 @@ resource "cloudflare_ruleset" "zone_level_managed_waf" {
 
         rules {
           id              = "6179ae15870a4bb7b2d480d4843b323c"
-          action          = "log"
+          action          = "block"
           score_threshold = 52
         }
       }

@@ -22,7 +22,7 @@ resource "cloudflare_logpush_job" "http_requests_r2" {
   zone_id          = var.cloudflare_zone_id
   name             = "terraform"
   logpull_options  = "fields=ClientIP,ClientRequestHost,ClientRequestMethod,ClientRequestURI,EdgeEndTimestamp,EdgeResponseBytes,EdgeResponseStatus,EdgeStartTimestamp,RayID&timestamps=rfc3339"
-  destination_conf = "r2://orangecloud-logs/http_requests?account-id=${var.cloudflare_account_id}&access-key-id=${cloudflare_api_token.logpush_r2_token.id}&secret-access-key=${sha256(cloudflare_api_token.logpush_r2_token.value)}"
+  destination_conf = "r2://cloudflare-logs/http_requests/${var.cloudflare_zone}?account-id=${var.cloudflare_account_id}&access-key-id=${cloudflare_api_token.logpush_r2_token.id}&secret-access-key=${sha256(cloudflare_api_token.logpush_r2_token.value)}"
   dataset          = "http_requests"
   filter = jsonencode( # prevents whitespace changes
     {
