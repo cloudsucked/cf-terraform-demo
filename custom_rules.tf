@@ -17,7 +17,20 @@ resource "cloudflare_ruleset" "my_custom_rules" {
     action      = "block"
     description = "Log all requests to admin portal"
     enabled     = true
-    expression  = "(http.host eq \"httpbin.${var.cloudflare_zone}\" and lower(url_decode(http.request.uri.path)) matches \"^/admin.*\")"
+    expression  = <<-EOT
+    (
+    http.host eq "httpbin.${var.cloudflare_zone}" 
+      and 
+    lower(url_decode(http.request.uri.path)) matches "^/admin.*"
+    )
+    EOT
+    action_parameters {
+      response {
+        content      = "You obviously don't have access"
+        content_type = "text/plain"
+        status_code  = 403
+      }
+    }
   }
 
   rules {
