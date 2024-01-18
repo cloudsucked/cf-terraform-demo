@@ -18,7 +18,3 @@ resource "cloudflare_load_balancer_monitor" "example" {
   follow_redirects = true
   probe_zone       = var.cloudflare_zone
 }
-
-output "monitor_id" {
-  value = cloudflare_load_balancer_monitor.example.id
-}
