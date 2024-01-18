@@ -60,7 +60,7 @@ resource "cloudflare_ruleset" "zone_level_managed_waf" {
 
     expression  = "(http.host eq \"test.${var.cloudflare_zone}\")"
     description = "overrides to only enable wordpress rules to block"
-    enabled     = false
+    enabled     = true
   }
 
   #OWASP Managed Rules Skip Rule
