@@ -15,7 +15,7 @@ resource "cloudflare_zone_settings_override" "my_zone_settings" {
       preload            = false
     }
     always_online               = "off"
-    always_use_https            = "on"
+    always_use_https            = "off"
     automatic_https_rewrites    = "off"
     brotli                      = "on"
     browser_cache_ttl           = 14400
@@ -48,7 +48,7 @@ resource "cloudflare_zone_settings_override" "my_zone_settings" {
     security_level              = "high"
     server_side_exclude         = "on"
     sort_query_string_for_cache = "on"
-    ssl                         = "full"
+    ssl                         = "flexible"
     tls_1_3                     = "zrt"
     tls_client_auth             = "off"
     true_client_ip_header       = "off"
