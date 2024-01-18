@@ -8,16 +8,24 @@ resource "cloudflare_ruleset" "origin_rules" {
 
   rules {
     action      = "route"
-    description = "Change origin of API requests"
+    description = "Port override for juiceshop.${var.cloudflare_zone}"
     enabled     = true
-    expression  = "(http.request.uri.path matches \"^/nyt/\")"
+    expression  = "(http.host eq \"juiceshop.${var.cloudflare_zone}\")"
     action_parameters {
       origin {
-        host = "nytimes.${var.cloudflare_zone}"
-        port = 443
+        port = 81
+      }
+    }
+  }
+  rules {
+    action      = "route"
+    description = "Port override for petstore.${var.cloudflare_zone}"
+    enabled     = true
+    expression  = "(http.host eq \"petstore.${var.cloudflare_zone}\")"
+    action_parameters {
+      origin {
+        port = 82
       }
     }
   }
 }
-
-
