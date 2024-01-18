@@ -5,12 +5,13 @@ variable "cloudflare_token" {}
 variable "cloudflare_zone" {}
 variable "cloudflare_zone_id" {}
 variable "cloudflare_account_id" {}
+variable "gcp_project_id" {}
 
 terraform {
   required_providers {
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = ">= 4.19.0"
+      version = ">= 4.20.0"
     }
   }
 }
@@ -20,4 +21,16 @@ provider "cloudflare" {
   api_key = var.cloudflare_key
   # api_token = var.cloudflare_token
   # api_hostname = "au.api.cloudflare.com"
+}
+
+provider "google" {
+  project = var.gcp_project_id
+}
+
+provider "random" {
+}
+
+resource "random_id" "namespace" {
+  prefix      = join("-", [split(".", split("@", var.cloudflare_email)[0])[0], ""])
+  byte_length = 2
 }
