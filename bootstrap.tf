@@ -6,6 +6,7 @@ variable "cloudflare_zone" {}
 variable "cloudflare_zone_id" {}
 variable "cloudflare_account_id" {}
 variable "gcp_project_id" {}
+variable "tunnel_secret" {}
 
 terraform {
   required_providers {
@@ -31,6 +32,6 @@ provider "random" {
 }
 
 resource "random_id" "namespace" {
-  prefix      = join("-", [split(".", split("@", var.cloudflare_email)[0])[0], ""])
+  prefix      = join("-", [replace(var.cloudflare_zone, ".", "-"), ""])
   byte_length = 2
 }

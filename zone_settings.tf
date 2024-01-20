@@ -16,7 +16,7 @@ resource "cloudflare_zone_settings_override" "my_zone_settings" {
     }
     always_online               = "off"
     always_use_https            = "off"
-    automatic_https_rewrites    = "off"
+    automatic_https_rewrites    = "on"
     brotli                      = "on"
     browser_cache_ttl           = 14400
     browser_check               = "on"
@@ -33,9 +33,9 @@ resource "cloudflare_zone_settings_override" "my_zone_settings" {
     ip_geolocation              = "on"
     ipv6                        = "on"
     max_upload                  = 100
-    min_tls_version             = "1.1"
+    min_tls_version             = "1.2"
     mirage                      = "on"
-    opportunistic_encryption    = "off"
+    opportunistic_encryption    = "on"
     opportunistic_onion         = "on"
     origin_error_page_pass_thru = "off"
     polish                      = "lossless"
@@ -48,7 +48,7 @@ resource "cloudflare_zone_settings_override" "my_zone_settings" {
     security_level              = "high"
     server_side_exclude         = "on"
     sort_query_string_for_cache = "on"
-    ssl                         = "flexible"
+    ssl                         = "full"
     tls_1_3                     = "zrt"
     tls_client_auth             = "off"
     true_client_ip_header       = "off"
