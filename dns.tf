@@ -68,7 +68,7 @@ resource "cloudflare_record" "smh" {
   proxied = true
   ttl     = 1
   type    = "CNAME"
-  value   = "smh.com.au"
+  value   = cloudflare_tunnel.gcp_tunnel.cname
 }
 
 resource "cloudflare_record" "httpbin" {
@@ -76,9 +76,8 @@ resource "cloudflare_record" "httpbin" {
   name    = "httpbin"
   proxied = true
   ttl     = 1
-  type    = "A"
-  // This uses data provided by the google_compute_instance resource to assign the empheral IP of the VPS to the DNS record
-  value = google_compute_instance.gcp_origin.network_interface.0.access_config.0.nat_ip
+  type    = "CNAME"
+  value   = cloudflare_tunnel.gcp_tunnel.cname
 }
 
 resource "cloudflare_record" "juiceshop" {
@@ -86,9 +85,8 @@ resource "cloudflare_record" "juiceshop" {
   name    = "juiceshop"
   proxied = true
   ttl     = 1
-  type    = "A"
-  // This uses data provided by the google_compute_instance resource to assign the empheral IP of the VPS to the DNS record
-  value = google_compute_instance.gcp_origin.network_interface.0.access_config.0.nat_ip
+  type    = "CNAME"
+  value   = cloudflare_tunnel.gcp_tunnel.cname
 }
 
 resource "cloudflare_record" "petstore" {
@@ -96,7 +94,6 @@ resource "cloudflare_record" "petstore" {
   name    = "petstore"
   proxied = true
   ttl     = 1
-  type    = "A"
-  // This uses data provided by the google_compute_instance resource to assign the empheral IP of the VPS to the DNS record
-  value = google_compute_instance.gcp_origin.network_interface.0.access_config.0.nat_ip
+  type    = "CNAME"
+  value   = cloudflare_tunnel.gcp_tunnel.cname
 }

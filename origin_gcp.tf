@@ -1,14 +1,14 @@
 resource "google_compute_instance" "gcp_origin" {
+  depends_on = [cloudflare_tunnel.gcp_tunnel, cloudflare_tunnel_config.gcp_tunnel_config]
   // Gives the VM a name like httpbin-
   name                      = random_id.namespace.hex
   zone                      = "australia-southeast1-a"
   machine_type              = "e2-small"
-  tags                      = ["terraformed", split(".", var.cloudflare_zone)[0]]
+  tags                      = ["terraformed", replace(var.cloudflare_zone, ".", "-")]
   allow_stopping_for_update = true
   boot_disk {
     initialize_params {
-      // OS of the VPS; in this case Contianer Optimized OS Stable edition
-      image = "gce-uefi-images/cos-stable"
+      image = "projects/cos-cloud/global/images/family/cos-stable"
     }
   }
   network_interface {
@@ -31,12 +31,18 @@ resource "google_compute_instance" "gcp_origin" {
   }
   // Runs the following command on the VPS at startup
   metadata_startup_script = <<SCRIPT
-    sudo docker run --restart always -d -p 80:80 kennethreitz/httpbin
-    sudo docker run --restart always -d -p 81:3000 bkimminich/juice-shop
-    sudo docker run --restart always -d -p 82:8080 swaggerapi/petstore3:unstable
+    docker network create --subnet=172.18.0.0/24 cfnet
+    sudo docker run --net cfnet --ip 172.18.0.11 --restart always -d -p 80:80 kennethreitz/httpbin
+    sudo docker run --net cfnet --ip 172.18.0.12 --restart always -d -p 3000:3000 bkimminich/juice-shop
+    sudo docker run --net cfnet --ip 172.18.0.13 --restart always -d -p 8080:8080 swaggerapi/petstore3:unstable
+    sudo docker run --net cfnet --ip 172.18.0.14 --restart always -d cloudflare/cloudflared:latest tunnel run --token ${cloudflare_tunnel.gcp_tunnel.tunnel_token}
     SCRIPT
 }
 
 output "juiceshop_origin_ip" {
   value = google_compute_instance.gcp_origin.network_interface.0.access_config.0.nat_ip
+}
+
+output "tunnel_id" {
+  value = cloudflare_tunnel.gcp_tunnel.id
 }
