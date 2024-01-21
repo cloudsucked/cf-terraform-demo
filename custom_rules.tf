@@ -10,12 +10,12 @@ resource "cloudflare_ruleset" "my_custom_rules" {
     action      = "block"
     description = "Log WAFML threats"
     enabled     = true
-    expression  = "(cf.waf.score lt 40)"
+    expression  = "(cf.waf.score lt 20)"
   }
 
   rules {
     action      = "block"
-    description = "Log all requests to admin portal"
+    description = "Block all requests to admin portal"
     enabled     = true
     expression  = <<-EOT
     (
@@ -55,20 +55,6 @@ resource "cloudflare_ruleset" "my_custom_rules" {
     }
     logging {
       enabled = true
-    }
-  }
-
-  rules {
-    action      = "block"
-    description = "Fake notification for webhook"
-    enabled     = true
-    expression  = "(http.request.method in {\"POST\" \"PUT\"})"
-    action_parameters {
-      response {
-        content      = "Success"
-        content_type = "application/json"
-        status_code  = 404
-      }
     }
   }
 
