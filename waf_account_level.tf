@@ -27,18 +27,18 @@ resource "cloudflare_ruleset" "account_level_managed_waf" {
   kind        = "root"
   phase       = "http_request_firewall_managed"
 
-  #OWASP Managed Rules Skip Rule
+  # OWASP Managed Rules Skip Rule
   rules {
     action = "skip"
     action_parameters {
       rulesets = [data.cloudflare_rulesets.account_owasp_id.rulesets[0].id]
     }
-    expression  = "(http.host eq \"login.${var.cloudflare_zone}\" and http.request.uri.path contains \"admin\")"
+    expression  = "(cf.zone.plan eq \"ENT\")"
     description = "Skip OWASP for some traffic"
     logging {
       enabled = true
     }
-    enabled = true
+    enabled = false
   }
 
   #Cloudflare Managed Rules
@@ -48,22 +48,21 @@ resource "cloudflare_ruleset" "account_level_managed_waf" {
       id = data.cloudflare_rulesets.account_cf_managed_id.rulesets[0].id
       overrides {
         categories {
-          category = "wordpress"
-          action   = "block"
-          enabled  = true
-        }
-
-        categories {
           category = "joomla"
           action   = "block"
-          enabled  = true
+          enabled  = false
+        }
+        categories {
+          category = "drupal"
+          action   = "block"
+          enabled  = false
         }
       }
     }
 
-    expression  = "(cf.zone.plan eq \"ENT\" and http.host eq \"test.${var.cloudflare_zone}\")"
+    expression  = "(cf.zone.plan eq \"ENT\")"
     description = "overrides to only enable wordpress rules to block"
-    enabled     = false
+    enabled     = true
   }
 
   #OWASP Managed Rules
