@@ -2,7 +2,7 @@ resource "google_compute_instance" "gcp_origin" {
   depends_on = [cloudflare_tunnel.gcp_tunnel, cloudflare_tunnel_config.gcp_tunnel_config]
   // Gives the VM a name like httpbin-
   name                      = random_id.namespace.hex
-  zone                      = "australia-southeast1-a"
+  zone                      = "australia-southeast1-b"
   machine_type              = "e2-small"
   tags                      = ["terraformed", replace(var.cloudflare_zone, ".", "-")]
   allow_stopping_for_update = true
@@ -19,8 +19,13 @@ resource "google_compute_instance" "gcp_origin" {
   }
   scheduling {
     // This tells Google Cloud to destory the VM after 24 hours
-    preemptible       = true
-    automatic_restart = false
+    preemptible                 = true
+    automatic_restart           = false
+    provisioning_model          = "SPOT"
+    instance_termination_action = "DELETE"
+    # max_run_duration {
+    #   seconds = 28800
+    # }
   }
   metadata = {
     cf-zone = var.cloudflare_zone
