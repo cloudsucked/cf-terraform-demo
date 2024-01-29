@@ -90,7 +90,7 @@ resource "cloudflare_ruleset" "account_level_managed_waf" {
         }
       }
     }
-    expression  = "true"
+    expression  = "(cf.zone.plan eq \"ENT\")"
     description = "OWASP Ruleset"
     enabled     = true
   }
