@@ -23,9 +23,9 @@ resource "cloudflare_ruleset" "rate_limiting_example" {
   }
   rules {
     action      = "block"
-    description = "Zed Run: POST counter bug"
+    description = "POST counter bug"
     enabled     = true
-    expression  = "(http.host eq \"httpbin.juiceshop.website\" and http.request.uri.path eq \"/post\" and not ip.src in $mycoprips and not ip.geoip.asnum in $bad_asn)"
+    expression  = "(http.host matches \"^httpbin\\\\.\" and http.request.uri.path eq \"/post\" and not ip.src in $mycoprips and not ip.geoip.asnum in $bad_asn)"
 
     action_parameters {
       response {
