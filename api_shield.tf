@@ -13,15 +13,14 @@ resource "cloudflare_api_shield" "zone_shield" {
 resource "cloudflare_api_shield_schema" "petstore_schema" {
   zone_id            = var.cloudflare_zone_id
   name               = "petstore"
-  kind               = "openapi_v3" # optional
-  validation_enabled = true         # optional, default false
+  kind               = "openapi_v3"
+  validation_enabled = true
   source             = file("./openapi.json")
 }
 
 resource "cloudflare_api_shield_schema_validation_settings" "petstore_schema" {
-  zone_id                               = var.cloudflare_zone_id
-  validation_default_mitigation_action  = "log"
-  validation_override_mitigation_action = "none"
+  zone_id                              = var.cloudflare_zone_id
+  validation_default_mitigation_action = "log"
 }
 
 resource "cloudflare_api_shield_operation" "httpbin_block" {
@@ -64,7 +63,6 @@ resource "cloudflare_ruleset" "sensitive_data_detection" {
   kind        = "zone"
   phase       = "http_response_firewall_managed"
 
-  #Leaked Credential Check
   rules {
     action = "execute"
     action_parameters {
