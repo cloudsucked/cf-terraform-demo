@@ -38,6 +38,7 @@ resource "cloudflare_zone_settings_override" "my_zone_settings" {
     opportunistic_encryption    = "on"
     opportunistic_onion         = "on"
     origin_error_page_pass_thru = "off"
+    origin_max_http_version     = "2"
     polish                      = "lossless"
     prefetch_preload            = "on"
     privacy_pass                = "on"
