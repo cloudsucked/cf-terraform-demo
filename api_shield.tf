@@ -15,7 +15,9 @@ resource "cloudflare_api_shield_schema" "petstore_schema" {
   name               = "petstore"
   kind               = "openapi_v3"
   validation_enabled = true
-  source             = file("./openapi.json")
+  source = templatefile("./openapi.json", {
+    zone = var.cloudflare_zone
+  })
 }
 
 resource "cloudflare_api_shield_schema_validation_settings" "petstore_schema" {
