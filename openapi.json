@@ -17,6 +17,11 @@
         "description": "Find out more about Swagger",
         "url": "http://swagger.io"
     },
+    "servers": [
+        {
+            "url": "https://petstore.${zone}/api/v3"
+        }
+    ],
     "tags": [
         {
             "name": "pet",
