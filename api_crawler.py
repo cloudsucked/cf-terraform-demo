@@ -13,6 +13,7 @@ def crawl_endpoints(run_number):
     usernames = ["tommy", "johnny", "jane", "carl", "nick", "hannah", "beth"]
     passwords = ["password", "p@55w0rd", "noname", "SECRET"]
     pet_status = ["available", "available", "available", "available", "pending", "pending", "pending", "sold", "dead"]
+    order_status = ["placed", "placed", "placed", "placed", "approved", "approved", "delivered", "delivered", "lost", "unknown"]
     auth_headers = {
         "Authorization": str(uuid.uuid4()),
         "Accept": "application/json",
@@ -20,10 +21,11 @@ def crawl_endpoints(run_number):
     }
     api_url=f"https://petstore.{zone}/api/v3/"
     api_payload = {}
-    api_payload["id"] = str(random.randint(3, 7))
-    api_payload["petId"] = str(random.randint(1, 12))
+    api_payload["id"] = random.randint(3, 7)
+    api_payload["petId"] = random.randint(1, 12)
+    api_payload["quantity"] = random.randint(1, 12)
     api_payload["shipDate"] = "2024-02-08T12:14:38.198Z"
-    api_payload["status"] = "approved"
+    api_payload["status"] = random.choice(order_status)
     api_payload["complete"] = True
     api_endpoints = [
                     {"path": "/user/login", "method": "GET", "query": f"?username={random.choice(usernames)}&password={random.choice(passwords)}"},
@@ -63,7 +65,9 @@ def crawl_endpoints(run_number):
 
     return number_of_blocks
 
+total_number_of_blocks = 0
+for i in range(10000):
+    total_number_of_blocks += crawl_endpoints(i+1)
 
-for i in range(1000):
-    print(f"Total number of blocks: {crawl_endpoints(i+1)}")
-    time.sleep(random.randint(1, 6))
+    print(f"Total number of blocks: {total_number_of_blocks}")
+    time.sleep(random.randint(1, 4))
