@@ -29,7 +29,7 @@ def crawl_endpoints(run_number):
     api_payload["complete"] = True
     api_endpoints = [
                     {"path": "/user/login", "method": "GET", "query": f"?username={random.choice(usernames)}&password={random.choice(passwords)}"},
-                    {"path": "/pet/findByStatus", "method": "GET", "query": f"?status={random.choice(pet_status)}"},
+                    {"path": "/pet/findByStatus", "method": "GET", "query": f"?status={random.choice(pet_status)}&age={str(random.randint(16, 99))}"},
                     {"path": "/pet/findByTags", "method": "GET", "query": "?tags=tag1"},
                     {"path": "/pet/" + str(random.randint(1, 12)), "method": "GET", "query": ""},
                     {"path": "/store/order", "method": "POST", "query": "", "json": api_payload},

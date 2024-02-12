@@ -21,31 +21,4 @@ resource "cloudflare_ruleset" "rate_limiting_example" {
     description = "rate limit for API"
     enabled     = true
   }
-  rules {
-    action      = "block"
-    description = "POST counter bug"
-    enabled     = true
-    expression  = "(http.host matches \"^httpbin\\\\.\" and http.request.uri.path eq \"/post\" and not ip.src in $mycoprips and not ip.geoip.asnum in $bad_asn)"
-
-    action_parameters {
-      response {
-        content      = "If you see this then you have been rate limited"
-        content_type = "text/plain"
-        status_code  = 429
-      }
-    }
-
-    ratelimit {
-      characteristics = [
-        "cf.colo.id",
-        "ip.src",
-      ]
-      counting_expression = "(http.request.method eq \"POST\")"
-      mitigation_timeout  = 300
-      period              = 300
-      requests_per_period = 500
-      requests_to_origin  = false
-    }
-  }
-
 }
