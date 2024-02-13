@@ -3,7 +3,7 @@ resource "cloudflare_healthcheck" "http_health_check" {
   zone_id     = var.cloudflare_zone_id
   name        = "http-health-check"
   description = "example http health check"
-  address     = "pacfile.${var.cloudflare_zone}"
+  address     = "petstore.${var.cloudflare_zone}"
   suspended   = false
   check_regions = [
     "OC"
@@ -11,21 +11,20 @@ resource "cloudflare_healthcheck" "http_health_check" {
   type          = "HTTPS"
   port          = 443
   method        = "GET"
-  path          = "/proxy.pac"
-  expected_body = "alive"
+  path          = "/"
+  expected_body = "Petstore Swagger"
   expected_codes = [
-    "2xx",
-    "301"
+    "200",
   ]
   follow_redirects = false
   allow_insecure   = false
   header {
-    header = "x-test-header"
-    values = ["pacfile.${var.cloudflare_zone}"]
+    header = "authorization"
+    values = ["healthcheck was created via terraform"]
   }
   timeout               = 10
   retries               = 2
-  interval              = 300
-  consecutive_fails     = 3
+  interval              = 240
+  consecutive_fails     = 2
   consecutive_successes = 2
 }

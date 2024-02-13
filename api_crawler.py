@@ -1,4 +1,3 @@
-import json
 import httpx
 import time
 import uuid
@@ -30,8 +29,11 @@ def crawl_endpoints(run_number):
     api_endpoints = [
                     {"path": "/user/login", "method": "GET", "query": f"?username={random.choice(usernames)}&password={random.choice(passwords)}"},
                     {"path": "/pet/findByStatus", "method": "GET", "query": f"?status={random.choice(pet_status)}&age={str(random.randint(16, 99))}"},
+                    {"path": "/pet/findByStatus", "method": "GET", "query": f"?status={random.choice(pet_status)}&age={str(random.randint(16, 99))}"},
+                    {"path": "/pet/findByStatus", "method": "GET", "query": f"?status={random.choice(pet_status)}&age={str(random.randint(16, 99))}"},
                     {"path": "/pet/findByTags", "method": "GET", "query": "?tags=tag1"},
                     {"path": "/pet/" + str(random.randint(1, 12)), "method": "GET", "query": ""},
+                    {"path": "/pet/123", "method": "DELETE", "query": ""},
                     {"path": "/store/order", "method": "POST", "query": "", "json": api_payload},
                     {"path": "/store/order/" + str(api_payload["id"]), "method": "GET", "query": ""},
                     {"path": "/store/order/" + str(api_payload["id"]), "method": "DELETE", "query": ""},
@@ -70,4 +72,4 @@ for i in range(10000):
     total_number_of_blocks += crawl_endpoints(i+1)
 
     print(f"Total number of blocks: {total_number_of_blocks}")
-    time.sleep(random.randint(1, 4))
+    time.sleep(random.randint(1, 3))
