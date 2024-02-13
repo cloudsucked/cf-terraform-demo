@@ -12,7 +12,7 @@ resource "cloudflare_healthcheck" "http_health_check" {
   port          = 443
   method        = "GET"
   path          = "/"
-  expected_body = "Petstore Swagger"
+  expected_body = "Swagger"
   expected_codes = [
     "200",
   ]
