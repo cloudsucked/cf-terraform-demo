@@ -404,7 +404,7 @@
                         "name": "api_key",
                         "in": "header",
                         "description": "",
-                        "required": false,
+                        "required": true,
                         "schema": {
                             "type": "string"
                         }
