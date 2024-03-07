@@ -62,15 +62,6 @@ resource "cloudflare_record" "www" {
   value   = "httpbin.org"
 }
 
-resource "cloudflare_record" "smh" {
-  zone_id = var.cloudflare_zone_id
-  name    = "smh"
-  proxied = true
-  ttl     = 1
-  type    = "CNAME"
-  value   = cloudflare_tunnel.gcp_tunnel.cname
-}
-
 resource "cloudflare_record" "httpbin" {
   zone_id = var.cloudflare_zone_id
   name    = "httpbin"
@@ -78,6 +69,10 @@ resource "cloudflare_record" "httpbin" {
   ttl     = 1
   type    = "CNAME"
   value   = cloudflare_tunnel.gcp_tunnel.cname
+  tags = [
+    "gcloud",
+  ]
+  comment = "Uses gcloud origin"
 }
 
 resource "cloudflare_record" "juiceshop" {
@@ -87,6 +82,10 @@ resource "cloudflare_record" "juiceshop" {
   ttl     = 1
   type    = "CNAME"
   value   = cloudflare_tunnel.gcp_tunnel.cname
+  tags = [
+    "gcloud",
+  ]
+  comment = "Uses gcloud origin"
 }
 
 resource "cloudflare_record" "petstore" {
@@ -96,4 +95,8 @@ resource "cloudflare_record" "petstore" {
   ttl     = 1
   type    = "CNAME"
   value   = cloudflare_tunnel.gcp_tunnel.cname
+  tags = [
+    "gcloud",
+  ]
+  comment = "Uses gcloud origin"
 }

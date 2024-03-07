@@ -37,6 +37,7 @@ def crawl_endpoints(run_number):
                     {"path": "/store/order", "method": "POST", "query": "", "json": api_payload},
                     {"path": "/store/order/" + str(api_payload["id"]), "method": "GET", "query": ""},
                     {"path": "/store/order/" + str(api_payload["id"]), "method": "DELETE", "query": ""},
+                    {"path": "/pet/findByTags", "method": "GET", "query": "?tags=tag2"},
                     {"path": "/store/inventory", "method": "GET", "query": ""},
                     {"path": "/user/logout", "method": "GET", "query": ""},
                     ]
