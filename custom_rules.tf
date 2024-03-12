@@ -6,11 +6,48 @@ resource "cloudflare_ruleset" "my_custom_rules" {
   zone_id = var.cloudflare_zone_id
 
   rules {
-    ref         = "blahblah"
+    ref         = "Sequence Mitigation 1"
     action      = "block"
-    description = "Log WAFML threats"
+    description = "Block store/inventory if not visited /pet/{var1} before"
     enabled     = true
-    expression  = "(cf.waf.score lt 20)"
+    expression  = "cf.sequence.current_op eq \"36074bb2\" and not any(cf.sequence.previous_ops[*] == \"dbab25d2\")"
+    action_parameters {
+      response {
+        content      = "Visit https://petstore.${var.cloudflare_zone}/api/v3/pet/1 before this endpoint."
+        content_type = "text/plain"
+        status_code  = 403
+      }
+    }
+  }
+
+  rules {
+    ref         = "Sequence Mitigation 2"
+    action      = "block"
+    description = "Block /pet/{var1} if previous endpoint visited was not /pet/findByStatus"
+    enabled     = true
+    expression  = "cf.sequence.current_op eq \"dbab25d2\" and cf.sequence.previous_ops[0] != \"965a3361\""
+    action_parameters {
+      response {
+        content      = "Visit https://petstore.${var.cloudflare_zone}/api/v3/pet/findByStatus?status=available right before this endpoint."
+        content_type = "text/plain"
+        status_code  = 403
+      }
+    }
+  }
+
+  rules {
+    ref         = "Sequence Mitigation 3"
+    action      = "block"
+    description = "Block /pet/findByStatus if you haven't visted /user/login more than 10 seconds ago"
+    enabled     = true
+    expression  = "cf.sequence.current_op eq \"965a3361\" and not cf.sequence.msec_since_op[\"6ef5fb59\"] ge 10000"
+    action_parameters {
+      response {
+        content      = "Visit https://petstore.${var.cloudflare_zone}/api/v3/user/login more than 10 seconds ago."
+        content_type = "text/plain"
+        status_code  = 403
+      }
+    }
   }
 
   rules {
