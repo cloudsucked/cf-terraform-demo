@@ -51,6 +51,30 @@ resource "cloudflare_ruleset" "my_custom_rules" {
   }
 
   rules {
+    ref         = "Sequence Mitigation 4"
+    action      = "block"
+    description = "Visit specific sequence first"
+    enabled     = true
+    expression  = <<-EOT
+    (
+    cf.sequence.current_op eq "3305be41" and 
+    not (
+      cf.sequence.previous_ops[0] == "965a3361" and
+      cf.sequence.previous_ops[1] == "36074bb2" and
+      cf.sequence.previous_ops[2] == "dbab25d2"
+      )
+    )
+    EOT
+    action_parameters {
+      response {
+        content      = "Visit these endpoints in order beforehand\n1-> /api/v3/pet/{var1}\n2-> /api/v3/store/inventory\n3-> /api/v3/pet/findByStatus"
+        content_type = "text/plain"
+        status_code  = 403
+      }
+    }
+  }
+
+  rules {
     action      = "block"
     description = "Block all requests to admin portal"
     enabled     = true
