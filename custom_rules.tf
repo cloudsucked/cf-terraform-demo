@@ -5,74 +5,74 @@ resource "cloudflare_ruleset" "my_custom_rules" {
   phase   = "http_request_firewall_custom"
   zone_id = var.cloudflare_zone_id
 
-  rules {
-    ref         = "Sequence Mitigation 1"
-    action      = "block"
-    description = "Block store/inventory if not visited /pet/{var1} before"
-    enabled     = true
-    expression  = "cf.sequence.current_op eq \"36074bb2\" and not any(cf.sequence.previous_ops[*] == \"dbab25d2\")"
-    action_parameters {
-      response {
-        content      = "WAF Block: Visit https://petstore.${var.cloudflare_zone}/api/v3/pet/1 before being allowed to visit this endpoint."
-        content_type = "text/plain"
-        status_code  = 403
-      }
-    }
-  }
+  # rules {
+  #   ref         = "Sequence Mitigation 1"
+  #   action      = "block"
+  #   description = "Block store/inventory if not visited /pet/{var1} before"
+  #   enabled     = true
+  #   expression  = "cf.sequence.current_op eq \"36074bb2\" and not any(cf.sequence.previous_ops[*] == \"dbab25d2\")"
+  #   action_parameters {
+  #     response {
+  #       content      = "WAF Block: Visit https://petstore.${var.cloudflare_zone}/api/v3/pet/1 before being allowed to visit this endpoint."
+  #       content_type = "text/plain"
+  #       status_code  = 403
+  #     }
+  #   }
+  # }
 
-  rules {
-    ref         = "Sequence Mitigation 2"
-    action      = "block"
-    description = "Block /pet/{var1} if previous endpoint visited was not /pet/findByStatus"
-    enabled     = true
-    expression  = "cf.sequence.current_op eq \"dbab25d2\" and cf.sequence.previous_ops[0] != \"965a3361\""
-    action_parameters {
-      response {
-        content      = "WAF Block: Visit https://petstore.${var.cloudflare_zone}/api/v3/pet/findByStatus?status=available right before you are allowed to visit this endpoint."
-        content_type = "text/plain"
-        status_code  = 403
-      }
-    }
-  }
+  # rules {
+  #   ref         = "Sequence Mitigation 2"
+  #   action      = "block"
+  #   description = "Block /pet/{var1} if previous endpoint visited was not /pet/findByStatus"
+  #   enabled     = true
+  #   expression  = "cf.sequence.current_op eq \"dbab25d2\" and cf.sequence.previous_ops[0] != \"965a3361\""
+  #   action_parameters {
+  #     response {
+  #       content      = "WAF Block: Visit https://petstore.${var.cloudflare_zone}/api/v3/pet/findByStatus?status=available right before you are allowed to visit this endpoint."
+  #       content_type = "text/plain"
+  #       status_code  = 403
+  #     }
+  #   }
+  # }
 
-  rules {
-    ref         = "Sequence Mitigation 3"
-    action      = "block"
-    description = "Block /pet/findByStatus if you haven't visted /user/login more than 10 seconds ago"
-    enabled     = true
-    expression  = "cf.sequence.current_op eq \"965a3361\" and not cf.sequence.msec_since_op[\"6ef5fb59\"] ge 10000"
-    action_parameters {
-      response {
-        content      = "WAF Block: You must have visited https://petstore.${var.cloudflare_zone}/api/v3/user/login more than 10 seconds ago before being allowed to visit this endpoint."
-        content_type = "text/plain"
-        status_code  = 403
-      }
-    }
-  }
+  # rules {
+  #   ref         = "Sequence Mitigation 3"
+  #   action      = "block"
+  #   description = "Block /pet/findByStatus if you haven't visitted /user/login less than 2 minutes ago"
+  #   enabled     = true
+  #   expression  = "cf.sequence.current_op eq \"965a3361\" and not cf.sequence.msec_since_op[\"6ef5fb59\"] le 120000"
+  #   action_parameters {
+  #     response {
+  #       content      = "WAF Block: You must have visited https://petstore.${var.cloudflare_zone}/api/v3/user/login less than 2 minutes before being allowed to visit this endpoint."
+  #       content_type = "text/plain"
+  #       status_code  = 403
+  #     }
+  #   }
+  # }
 
-  rules {
-    ref         = "Sequence Mitigation 4"
-    action      = "block"
-    description = "Visit specific sequence first"
-    enabled     = true
-    expression  = <<-EOT
-    (
-    cf.sequence.current_op eq "3305be41" and 
-    not (
-      cf.sequence.previous_ops[0] == "965a3361" and
-      cf.sequence.previous_ops[1] == "36074bb2" and
-      cf.sequence.previous_ops[2] == "dbab25d2"
-      )
-    )
-    EOT
-    action_parameters {
-      response {
-        content      = "WAF Block: Visit these endpoints in order to be allowedd\n1-> /api/v3/pet/{var1}\n2-> /api/v3/store/inventory\n3-> /api/v3/pet/findByStatus"
-        content_type = "text/plain"
-        status_code  = 403
-      }
-    }
-  }
+  # rules {
+  #   ref         = "Sequence Mitigation 4"
+  #   action      = "block"
+  #   description = "Visit specific sequence first"
+  #   enabled     = true
+  #   expression  = <<-EOT
+  #   (
+  #   cf.sequence.current_op eq "3305be41" and 
+  #   not (
+  #     cf.sequence.previous_ops[0] == "965a3361" and
+  #     cf.sequence.previous_ops[1] == "36074bb2" and
+  #     cf.sequence.previous_ops[2] == "dbab25d2"
+  #     )
+  #   )
+  #   EOT
+  #   action_parameters {
+  #     response {
+  #       content      = "WAF Block: Visit these endpoints in order to be allowedd\n1-> /api/v3/pet/{var1}\n2-> /api/v3/store/inventory\n3-> /api/v3/pet/findByStatus"
+  #       content_type = "text/plain"
+  #       status_code  = 403
+  #     }
+  #   }
+  # }
 
   rules {
     action      = "block"
