@@ -6,20 +6,20 @@ resource "cloudflare_api_shield" "zone_shield" {
   }
 }
 
-resource "cloudflare_api_shield_schema" "petstore_schema" {
-  zone_id            = var.cloudflare_zone_id
-  name               = "petstore_schema.json"
-  kind               = "openapi_v3"
-  validation_enabled = true
-  source = templatefile("./openapi.json", {
-    zone = var.cloudflare_zone
-  })
-}
+# resource "cloudflare_api_shield_schema" "petstore_schema" {
+#   zone_id            = var.cloudflare_zone_id
+#   name               = "petstore_schema.json"
+#   kind               = "openapi_v3"
+#   validation_enabled = true
+#   source = templatefile("./openapi.json", {
+#     zone = var.cloudflare_zone
+#   })
+# }
 
-resource "cloudflare_api_shield_schema_validation_settings" "petstore_schema" {
-  zone_id                              = var.cloudflare_zone_id
-  validation_default_mitigation_action = "log"
-}
+# resource "cloudflare_api_shield_schema_validation_settings" "petstore_schema" {
+#   zone_id                              = var.cloudflare_zone_id
+#   validation_default_mitigation_action = "log"
+# }
 
 resource "cloudflare_api_shield_operation" "httpbin_block" {
   zone_id  = var.cloudflare_zone_id
