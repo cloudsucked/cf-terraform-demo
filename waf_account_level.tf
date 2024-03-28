@@ -65,7 +65,7 @@ resource "cloudflare_ruleset" "account_level_managed_waf" {
     enabled     = true
   }
 
-  #OWASP Managed Rules
+  #OWASP Managed Rules #1
   rules {
     action = "execute"
     action_parameters {
@@ -90,6 +90,35 @@ resource "cloudflare_ruleset" "account_level_managed_waf" {
       }
     }
     expression  = "(cf.zone.plan eq \"ENT\")"
+    description = "OWASP Ruleset"
+    enabled     = true
+  }
+
+  #OWASP Managed Rules #2
+  rules {
+    action = "execute"
+    action_parameters {
+      id = data.cloudflare_rulesets.account_owasp_id.rulesets[0].id
+      overrides {
+        categories {
+          category = "paranoia-level-1"
+          enabled  = true
+        }
+        categories {
+          category = "paranoia-level-2"
+          enabled  = true
+        }
+        categories {
+          category = "paranoia-level-3"
+          enabled  = true
+        }
+        categories {
+          category = "paranoia-level-4"
+          enabled  = true
+        }
+      }
+    }
+    expression  = "(cf.zone.plan eq \"ENT\" and http.host contains \"petstore.\")"
     description = "OWASP Ruleset"
     enabled     = true
   }
