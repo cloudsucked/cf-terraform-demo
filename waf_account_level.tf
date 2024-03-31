@@ -118,7 +118,7 @@ resource "cloudflare_ruleset" "account_level_managed_waf" {
         }
       }
     }
-    expression  = "((cf.zone.plan eq \"ENT\") and (http.host contains \"petstore.\"))"
+    expression  = "((http.host contains \"petstore.\") and (cf.zone.plan eq \"ENT\"))"
     description = "OWASP Ruleset"
     enabled     = true
   }
