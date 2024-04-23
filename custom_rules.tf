@@ -1,9 +1,10 @@
 # https://developers.cloudflare.com/waf/custom-rules/
 resource "cloudflare_ruleset" "my_custom_rules" {
-  kind    = "zone"
-  name    = "default"
-  phase   = "http_request_firewall_custom"
-  zone_id = var.cloudflare_zone_id
+  depends_on = [cloudflare_list.allowlist]
+  kind       = "zone"
+  name       = "default"
+  phase      = "http_request_firewall_custom"
+  zone_id    = var.cloudflare_zone_id
 
   # rules {
   #   ref         = "Sequence Mitigation 1"
