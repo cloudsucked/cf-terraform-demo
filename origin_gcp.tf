@@ -1,3 +1,9 @@
+# resource "google_service_account" "service_account" {
+#   account_id   = replace(var.cloudflare_zone, ".", "-")
+#   display_name = "Service Account - ${var.cloudflare_zone}"
+# }
+
+
 resource "google_compute_instance" "gcp_origin" {
   depends_on = [cloudflare_tunnel.gcp_tunnel, cloudflare_tunnel_config.gcp_tunnel_config]
   // Gives the VM a name like httpbin-
@@ -34,6 +40,11 @@ resource "google_compute_instance" "gcp_origin" {
     // Adds owner label for (C)SE GCloud fair usage 
     "owner" = split("@", replace(var.cloudflare_email, ".", "_"))[0]
   }
+  # service_account {
+  #   # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
+  #   email  = google_service_account.service_account.email
+  #   scopes = ["https://www.googleapis.com/auth/logging.write"]
+  # }
   // Runs the following command on the VPS at startup
   metadata_startup_script = <<SCRIPT
     docker network create --subnet=172.18.0.0/24 cfnet

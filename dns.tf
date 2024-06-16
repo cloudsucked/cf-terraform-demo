@@ -72,7 +72,7 @@ resource "cloudflare_record" "httpbin" {
   tags = [
     "gcloud",
   ]
-  comment = "Uses gcloud origin"
+  comment = "Uses GCP origin"
 }
 
 resource "cloudflare_record" "juiceshop" {
