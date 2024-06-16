@@ -7,6 +7,9 @@ resource "cloudflare_zone_settings_override" "my_zone_settings" {
       html = "on"
       js   = "on"
     }
+    nel {
+      enabled = false
+    }
     security_header {
       enabled            = false
       include_subdomains = false
