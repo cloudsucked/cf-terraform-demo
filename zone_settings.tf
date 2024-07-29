@@ -7,9 +7,6 @@ resource "cloudflare_zone_settings_override" "my_zone_settings" {
       html = "on"
       js   = "on"
     }
-    nel {
-      enabled = false
-    }
     security_header {
       enabled            = false
       include_subdomains = false
@@ -20,7 +17,6 @@ resource "cloudflare_zone_settings_override" "my_zone_settings" {
     always_online               = "off"
     always_use_https            = "off"
     automatic_https_rewrites    = "on"
-    brotli                      = "on"
     browser_cache_ttl           = 14400
     browser_check               = "on"
     cache_level                 = "aggressive"
@@ -56,7 +52,7 @@ resource "cloudflare_zone_settings_override" "my_zone_settings" {
     tls_1_3                     = "zrt"
     tls_client_auth             = "off"
     true_client_ip_header       = "off"
-    webp                        = "on"
+    webp                        = "off"
     websockets                  = "on"
     zero_rtt                    = "on"
   }
