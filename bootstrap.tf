@@ -5,7 +5,6 @@ variable "cloudflare_token" {}
 variable "cloudflare_zone" {}
 variable "cloudflare_zone_id" {}
 variable "cloudflare_account_id" {}
-variable "gcp_project_id" {}
 variable "tunnel_secret" {}
 
 terraform {
@@ -22,10 +21,6 @@ provider "cloudflare" {
   api_key = var.cloudflare_key
   # api_token = var.cloudflare_token
   # api_hostname = "au.api.cloudflare.com"
-}
-
-provider "google" {
-  project = var.gcp_project_id
 }
 
 provider "random" {
