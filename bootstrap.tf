@@ -5,7 +5,7 @@ variable "cloudflare_token" {}
 variable "cloudflare_zone" {}
 variable "cloudflare_zone_id" {}
 variable "cloudflare_account_id" {}
-variable "tunnel_secret" {}
+variable "cloudflare_tunnel_secret" {}
 
 terraform {
   required_providers {
@@ -21,12 +21,4 @@ provider "cloudflare" {
   api_key = var.cloudflare_key
   # api_token = var.cloudflare_token
   # api_hostname = "au.api.cloudflare.com"
-}
-
-provider "random" {
-}
-
-resource "random_id" "namespace" {
-  prefix      = join("-", [replace(var.cloudflare_zone, ".", "-"), ""])
-  byte_length = 2
 }

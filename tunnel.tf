@@ -1,7 +1,7 @@
 resource "cloudflare_tunnel" "gcp_tunnel" {
   account_id = var.cloudflare_account_id
   name       = "gcp_tunnel"
-  secret     = var.tunnel_secret
+  secret     = var.cloudflare_tunnel_secret
 }
 
 resource "cloudflare_tunnel_config" "gcp_tunnel_config" {
