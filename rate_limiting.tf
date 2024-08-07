@@ -8,6 +8,7 @@ resource "cloudflare_ruleset" "rate_limiting_example" {
   rules {
     action = "block"
     ratelimit {
+      counting_expression = "(http.response.code in {400 403})"
       characteristics = [
         "cf.colo.id",
         "ip.src"
@@ -19,6 +20,6 @@ resource "cloudflare_ruleset" "rate_limiting_example" {
 
     expression  = "(http.request.uri.path matches \"^/anything/\")"
     description = "rate limit for API"
-    enabled     = true
+    enabled     = false
   }
 }
